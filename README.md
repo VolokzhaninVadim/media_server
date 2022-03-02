@@ -55,6 +55,35 @@ source ~/.bashrc
 **Смартфон** 
 Устанавливаем [Plex: Stream Free Movies, Shows, Live TV & more](https://www.tvbox.one/apps/plex.html )
 
+**Transcode Nvidia**
+* Удаляем старые драйвера
+```
+# Удаляем старые драйвера
+sudo apt remove nvidia-*
+sudo add-apt-repository --remove ppa:graphics-drivers/ppa
+sudo apt remove xserver-xorg-video-nvidia-*
+sudo apt update
+rm -Rf /usr/local/cuda/
+sudo reboot
+```
+* Устанавливаем драйвера и cuda
+```
+# Возвращаем нужный репозиторий
+sudo add-apt-repository ppa:graphics-drivers/ppa 
+# Вывод всех доступных версий драйвера
+sudo apt list nvidia-driver-* 
+# Устанавливаем необхлодимую версию драйвера
+sudo apt install nvidia-driver-450 
+# Устанавливаем nv-runtime для докера
+sudo apt-get install -y nvidia-container-toolkit 
+sudo reboot
+```
+* Проверка работы 
+```
+# Проверка работы 
+sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+```
+
 ## Смартфон
 Устанавливаем [nzb360](https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360)<br>
 ![](https://play-lh.googleusercontent.com/hjpWUw2sBsC0fpbPFUAChsjx-yC0-57zjZLdG8GQUw_FhVehK19pY0HIdDDysrdh7BM=s180)
