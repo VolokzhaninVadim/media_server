@@ -1,0 +1,101 @@
+version: "2.3"
+services:
+
+# Индексатор торрентов
+  jackett:
+    image: lscr.io/linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Vladivostok
+      - AUTO_UPDATE=true
+    volumes:
+      - ./config_jackett:/config
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+
+# Отслеживание фильмов
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Vladivostok
+    volumes:
+      - ./config_radarr:/config
+      - /mnt/media/:/downloads 
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+# Прокси сервера TOR
+  tor:
+    image: dperson/torproxy
+    container_name: tor
+    restart: always
+    ports:
+      - 8118:8118
+      - 9050:9050
+      - 9051:9051
+    environment:
+      - PASSWORD=${PASSWORD_TOR}
+      - TZ=Asia/Vladivostok
+    restart: unless-stopped
+
+# Клиент для закачки торрентов 
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - USER=${LOGIN_TRANSMISSION}
+      - PASS=${PASSWORD_TRANSMISSION}
+    volumes: 
+      - /mnt/media/torrents/:/downloads
+      - /mnt/media/torrents/torrents/:/watch
+      - ./config_transmission/:/config
+    ports:   
+      - 9092:9091
+      - 51412:51413
+      - 51412:51413/udp
+    restart: unless-stopped
+
+# Медиасервер
+  plex:
+    image: nixta/plex-nvdec  
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000 
+      - PGID=100 
+      - PLEX_CLAIM=${PLEX_CLAIM} 
+      - UMASK=022
+      - VERSION=latest
+      - NVIDIA_VISIBLE_DEVICES=all           
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - CUDA_DRIVER_CAPABILITIES=compute,video,utility
+      - VERSION=docker
+    volumes:
+      - ./transcode_plex:/transcode
+      - /share/CE_CACHEDEV1_DATA/.qpkg/NVIDIA_GPU_DRV/usr:/usr/local/nvidia:rw
+      - ./config_plex:/config 
+      - /mnt/media/music:/music
+      - /mnt/media/cartoon:/cartoon
+      - /mnt/media/pictures:/pictures
+      - /mnt/media/serial:/serial
+      - /mnt/media/video:/video
+      - /mnt/backup/my videos/:/my_video
+      - /mnt/backup/photo/:/my_pictures
+      - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
+      - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
+      - /mnt/backup/cources/:/cources
+    devices:    
+      - /dev/nvidia0
+      - /dev/nvidiactl
+      - /dev/nvidia-uvm
+    runtime: nvidia
+    restart: unless-stopped
