@@ -66,7 +66,7 @@ services:
 
 # Медиасервер
   plex:
-    image: nixta/plex-nvdec  
+    image: lscr.io/linuxserver/plex   
     container_name: plex
     network_mode: host
     environment:
@@ -77,11 +77,9 @@ services:
       - VERSION=latest
       - NVIDIA_VISIBLE_DEVICES=all           
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
-      - CUDA_DRIVER_CAPABILITIES=compute,video,utility
       - VERSION=docker
     volumes:
       - ./transcode_plex:/transcode
-      - /share/CE_CACHEDEV1_DATA/.qpkg/NVIDIA_GPU_DRV/usr:/usr/local/nvidia:rw
       - ./config_plex:/config 
       - /mnt/media/music:/music
       - /mnt/media/cartoon:/cartoon
@@ -93,9 +91,5 @@ services:
       - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
-    devices:    
-      - /dev/nvidia0
-      - /dev/nvidiactl
-      - /dev/nvidia-uvm
     runtime: nvidia
     restart: unless-stopped
