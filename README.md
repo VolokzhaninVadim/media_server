@@ -83,6 +83,9 @@ sudo reboot
 # Проверка работы 
 sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 ```
+**Плагин для импорта метаданных фильмов**<br>
+![картинка](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kinopoisk_colored_logo_%282021-present%29.svg/220px-Kinopoisk_colored_logo_%282021-present%29.svg.png)<br>
+Установка описана [тут](https://github.com/Jenstel/Kinopoisk.bundle).
 
 ## Смартфон
 Устанавливаем [nzb360](https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360)<br>
