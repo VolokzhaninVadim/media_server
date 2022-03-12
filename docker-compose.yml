@@ -66,7 +66,7 @@ services:
 
 # Медиасервер
   plex:
-    image: lscr.io/linuxserver/plex   
+    image: nixta/plex-nvdec #lscr.io/linuxserver/plex
     container_name: plex
     network_mode: host
     environment:
@@ -91,5 +91,13 @@ services:
       - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
+    devices:  
+      - /dev/nvidia0
+      - /dev/nvidia-caps
+      - /dev/nvidiactl
+      - /dev/nvidia-modeset
+      - /dev/nvidia-uvm
+      - /dev/nvidia-uvm-tools
+      - /dev/nvram
     runtime: nvidia
     restart: unless-stopped
