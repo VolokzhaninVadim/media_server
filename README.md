@@ -53,7 +53,7 @@ source ~/.bashrc
 1. В плейлисте VLC открыть "Протокол UPnP".
 
 **Смартфон** 
-Устанавливаем [Plex: Stream Free Movies, Shows, Live TV & more](https://www.tvbox.one/apps/plex.html )
+Приложение Nextcloud для смартфона устанавливаем через [FDroid](https://f-droid.org/). Мой [репозиторий Nextcloud](https://github.com/VolokzhaninVadim/nextcloud).
 
 **Transcode Nvidia**
 * Удаляем старые драйвера
