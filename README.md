@@ -79,9 +79,14 @@ sudo reboot
 ```
 * Проверка работы 
 ```
-# Проверка работы 
+# Проверка работы 1 
 sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+
+# Проверка работы 2
+nvidia-smi
 ```
+![картинка](https://user-images.githubusercontent.com/27136123/158003064-36a0e350-ce76-4f23-99f0-5c9f930171b2.png)
+
 **Плагин для импорта метаданных фильмов**<br>
 ![картинка](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kinopoisk_colored_logo_%282021-present%29.svg/220px-Kinopoisk_colored_logo_%282021-present%29.svg.png)<br>
 Установка описана [тут](https://github.com/Jenstel/Kinopoisk.bundle).
