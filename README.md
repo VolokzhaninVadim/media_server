@@ -52,8 +52,7 @@ source ~/.bashrc
 1. На сервере DLNA -> Включить DLNA сервер.
 1. В плейлисте VLC открыть "Протокол UPnP".
 
-**Смартфон** 
-Приложение Nextcloud для смартфона устанавливаем через [FDroid](https://f-droid.org/). Мой [репозиторий Nextcloud](https://github.com/VolokzhaninVadim/nextcloud).
+**Смартфон** приложение Nextcloud для смартфона устанавливаем через [FDroid](https://f-droid.org/). Мой [репозиторий Nextcloud](https://github.com/VolokzhaninVadim/nextcloud).
 
 **Transcode Nvidia**
 * Удаляем старые драйвера
