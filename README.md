@@ -1,27 +1,42 @@
-## Docker 
-**Устанавливаем docker:**<br> 
+## Docker (Ubuntu)
 ```
-sudo pacman -Syu
-sudo pacman -S docker
+# Устаналиваем пакеты для работы с сетью
+sudo apt install net-tools
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+# Устанавливаем Docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+apt-cache policy docker-ce
+sudo apt-get -y install docker-ce
+# Добавляем пользователя в группу docker, чтобы не запускать docker через sudo
+sudo usermod -aG docker ${USER}
+# Устанавливаем docker-compose
+sudo apt install python3-pip
+sudo pip3 install docker-compose
+
+# fix ошибки failed to add the host (veth92ce8d0) <=> sandbox (veth7a8e3f2) pair interfaces: operation not supported
+sudo apt install linux-modules-extra-raspi
 ```
-Устанавливаем docker compose: `sudo pacman -S docker-compose`
 
 ## TOR 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Tor-logo-2011-flat.svg/306px-Tor-logo-2011-flat.svg.png)
+
+**Переменные окружения:**<br> 
+```
+sudo nano /etc/bash.bashrc 
+# Задаем переменные 
+source /etc/bash.bashrc 
+```
+Пример конфигурации взял [отсюда](https://gitlab.com/skobkin/docker-stacks/-/tree/master/tor-privoxy). Там же взял пример [torrc](https://gitlab.com/skobkin/docker-stacks/-/blob/master/tor-privoxy/config/torrc.dist).
 
 **Проверка работоспособности:**<br>  
 ```
 # Вне контейнера
 curl --socks5 http://localhost:9050 -L http://ifconfig.me
-# Из другого контейнера (192.168.0.141 - ip host)
-curl --socks5 http://192.168.0.141:9050 -L http://ifconfig.me
-```
-
-**Переменные окружения:**<br> 
-```
-sudo nano ~/.bashrc
-# Задаем переменные 
-source ~/.bashrc
+# Из другого контейнера (192.168.0.140 - ip host)
+curl --socks5 http://192.168.0.140:9050 -L http://ifconfig.me
 ```
 **Прокси у Firefox:**<br> 
 ![картинка](https://lumpics.ru/wp-content/uploads/2016/08/Tor-dlya-Firefox-3.png)
