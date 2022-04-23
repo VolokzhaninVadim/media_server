@@ -70,7 +70,7 @@ services:
 
 # Медиасервер
   plex:
-    image: nixta/plex-nvdec #lscr.io/linuxserver/plex
+    image: lscr.io/linuxserver/plex #nixta/plex-nvdec
     container_name: plex
     network_mode: host
     environment:
@@ -79,8 +79,8 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM} 
       - UMASK=022
       - VERSION=latest
-      - NVIDIA_VISIBLE_DEVICES=all           
-      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      #- NVIDIA_VISIBLE_DEVICES=all           
+      #- NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - VERSION=docker
     volumes:
       - ./transcode_plex:/transcode
@@ -95,13 +95,13 @@ services:
       - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
-    devices:  
-      - /dev/nvidia0
-      - /dev/nvidia-caps
-      - /dev/nvidiactl
-      - /dev/nvidia-modeset
-      - /dev/nvidia-uvm
-      - /dev/nvidia-uvm-tools
-      - /dev/nvram
-    runtime: nvidia
+    #devices:  
+     # - /dev/nvidia0
+     # - /dev/nvidia-caps
+     # - /dev/nvidiactl
+     # - /dev/nvidia-modeset
+     # - /dev/nvidia-uvm
+     # - /dev/nvidia-uvm-tools
+     # - /dev/nvram
+    #runtime: nvidia
     restart: unless-stopped
