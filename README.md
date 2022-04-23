@@ -55,10 +55,13 @@ curl --socks5 http://192.168.0.140:9050 -L http://ifconfig.me
 ## Plex 
 ![картинка](https://lg-help.ru/img/868_1.gif)
 
-[Образ](https://hub.docker.com/r/linuxserver/plex)
+[Образ](https://hub.docker.com/r/linuxserver/plex):
+1. **lscr.io/linuxserver/plex** - образ использует ресурсы CPU при [транскодировании](https://en.wikipedia.org/wiki/Transcoding). 
+1. **nixta/plex-nvdec** - образ использует ресурсы NVidia видеокарты при [транскодировании](https://en.wikipedia.org/wiki/Transcoding). При использовании этого образа не работает приложение на смартфоне и ТВ (не видны прокинутые папки).
 
 **claim**<br>
 [claim](https://www.plex.tv/claim/)
+
 
 **Запуск**<br>
 `your-ip:32400/web`
