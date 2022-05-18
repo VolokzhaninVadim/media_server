@@ -35,8 +35,6 @@ services:
   tor-privoxy:
     image: registry.gitlab.com/skobkin/torproxy-obfs4
     container_name: tor-privoxy
-    environment: 
-      - BRIDGE_TOR=${BRIDGE_TOR}
     ports:
       - "8118:8118/tcp"
       - "9050:9050/tcp"
