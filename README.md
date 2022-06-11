@@ -47,7 +47,10 @@ curl --socks5 http://192.168.0.140:9050 -L http://ifconfig.me
 Чтобы обойти ограничение обхода списков (у меня [imdb](https://www.imdb.com), делаем его публичным) прописываем `crontab -e`: 
 ```
 # Radarr
-@hourly curl -X POST "http://localhost:7878/api/v3/command?apikey=yor_api_key" -H "accept: application/json" -d '{"name":"ImportListSync"}'
+@hourly curl -i -s -k -X $'POST' \
+    -H $'Host: host:7878' -H $'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0' -H $'Accept: application/json, text/javascript, */*; q=0.01' -H $'Accept-Language: en-US,en;q=0.5' -H $'Accept-Encoding: gzip, deflate' -H $'Content-Type: application/json' -H $'X-Api-Key: 43aa93d733de4a938cf6a8860fb46882' -H $'X-Requested-With: XMLHttpRequest' -H $'Content-Length: 25' -H $'Origin: http://host:7878' -H $'DNT: 1' -H $'Connection: close' -H $'Referer: http://host:7878/system/tasks' \
+    --data-binary $'{\"name\":\"ImportListSync\"}' \
+    $'http://host:7878/api/v3/command''
 ```
 ## Jackett
 В  поля Proxy URL и Proxy port прописываем `IP` и `port` нашего TOR.
