@@ -36,8 +36,9 @@ services:
     image: registry.gitlab.com/skobkin/torproxy-obfs4
     container_name: tor-privoxy
     ports:
-      - "8118:8118/tcp"
-      - "9050:9050/tcp"
+      - "8118:8118"
+      - "9050:9050"
+      - "9051:9051"
     volumes:
       - "./config_tor/torrc:/etc/tor/torrc:ro"
     restart: unless-stopped
