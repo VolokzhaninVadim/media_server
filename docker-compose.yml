@@ -1,7 +1,7 @@
 version: "2.3"
 services:
 
-# Индексатор торрентов
+# Torrents indexator
   jackett:
     image: lscr.io/linuxserver/jackett
     container_name: jackett
@@ -16,7 +16,7 @@ services:
       - 9117:9117
     restart: unless-stopped
 
-# Отслеживание фильмов
+# Film finder
   radarr:
     image: lscr.io/linuxserver/radarr
     container_name: radarr
@@ -31,7 +31,7 @@ services:
       - 7878:7878
     restart: unless-stopped
 
-# Прокси сервера TOR c мостами 
+# Tor proxy 
   tor-privoxy:
     image: registry.gitlab.com/skobkin/torproxy-obfs4
     container_name: tor-privoxy
@@ -48,7 +48,7 @@ services:
         max-size: "${LOG_MAX_SIZE:-5m}"
         max-file: "${LOG_MAX_FILE:-5}"
 
-# Клиент для закачки торрентов 
+# Torrent client
   transmission:
     image: linuxserver/transmission
     container_name: transmission
@@ -67,7 +67,7 @@ services:
       - 51412:51413/udp
     restart: unless-stopped
 
-# Медиасервер
+# Mediaserver
   plex:
     image: lscr.io/linuxserver/plex #nixta/plex-nvdec
     container_name: plex
@@ -179,7 +179,6 @@ services:
 
   ## Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
-    restart: unless-stopped
   mariadb:
     ## If MariaDB gets stuck in a restart loop, this points to a memory or filesystem issue:
     ## https://docs.photoprism.app/getting-started/troubleshooting/#fatal-server-errors
@@ -200,4 +199,3 @@ services:
       MARIADB_USER: "photoprism"
       MARIADB_PASSWORD: "insecure"
       MARIADB_ROOT_PASSWORD: "insecure"
-    restart: unless-stopped
