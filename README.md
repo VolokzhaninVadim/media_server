@@ -1,84 +1,70 @@
 ## Docker (Ubuntu)
 ```
-# Устаналиваем пакеты для работы с сетью
+# Install packages for work with net
 sudo apt install net-tools
 sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
-# Устанавливаем Docker
+# Install Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
 sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
 apt-cache policy docker-ce
 sudo apt-get -y install docker-ce
-# Добавляем пользователя в группу docker, чтобы не запускать docker через sudo
+# Add user in docker group, that do not launch docker with sudo 
 sudo usermod -aG docker ${USER}
-# Устанавливаем docker-compose
+# Install docker-compose
 sudo apt install python3-pip
 sudo pip3 install docker-compose
-
-# fix ошибки failed to add the host (veth92ce8d0) <=> sandbox (veth7a8e3f2) pair interfaces: operation not supported
-sudo apt install linux-modules-extra-raspi
 ```
 
 ## TOR 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Tor-logo-2011-flat.svg/306px-Tor-logo-2011-flat.svg.png)
+![image](https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Tor-logo-2011-flat.svg/306px-Tor-logo-2011-flat.svg.png)
 
-**Переменные окружения:**<br> 
+**Variable environments:**<br> 
 ```
 sudo nano /etc/bash.bashrc 
-# Задаем переменные 
+# Set variables 
 source /etc/bash.bashrc 
 ```
-Пример конфигурации взял [отсюда](https://gitlab.com/skobkin/docker-stacks/-/tree/master/tor-privoxy). Там же взял пример [torrc](https://gitlab.com/skobkin/docker-stacks/-/blob/master/tor-privoxy/config/torrc.dist).
+Example for config got from [here](https://gitlab.com/skobkin/docker-stacks/-/tree/master/tor-privoxy). Example for [torrc](https://gitlab.com/skobkin/docker-stacks/-/blob/master/tor-privoxy/config/torrc.dist).
 
-**Проверка работоспособности:**<br>  
+**Checking work:**<br>  
 ```
-# Вне контейнера
+# Outside of container
 curl --socks5 http://localhost:9050 -L http://ifconfig.me
-# Из другого контейнера (192.168.0.140 - ip host)
+# From another container (192.168.0.140 - ip host)
 curl --socks5 http://192.168.0.140:9050 -L http://ifconfig.me
 ```
-**Прокси у Firefox:**<br> 
-![картинка](https://lumpics.ru/wp-content/uploads/2016/08/Tor-dlya-Firefox-3.png)
+**Proxy server in Firefox:**<br> 
+![picture](https://lumpics.ru/wp-content/uploads/2016/08/Tor-dlya-Firefox-3.png)
 
 ## Radarr
-![](https://github.com/Radarr/Radarr/blob/develop/Logo/400.png?raw=true)
+![image](https://github.com/Radarr/Radarr/blob/develop/Logo/400.png?raw=true)
 
-Чтобы обойти ограничение обхода списков (у меня [imdb](https://www.imdb.com), делаем его публичным) прописываем `crontab -e`: 
-```
-# Radarr
-@hourly curl -i -s -k -X $'POST' \
-    -H $'Host: host:7878' -H $'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0' -H $'Accept: application/json, text/javascript, */*; q=0.01' -H $'Accept-Language: en-US,en;q=0.5' -H $'Accept-Encoding: gzip, deflate' -H $'Content-Type: application/json' -H $'X-Api-Key: 43aa93d733de4a938cf6a8860fb46882' -H $'X-Requested-With: XMLHttpRequest' -H $'Content-Length: 25' -H $'Origin: http://host:7878' -H $'DNT: 1' -H $'Connection: close' -H $'Referer: http://host:7878/system/tasks' \
-    --data-binary $'{\"name\":\"ImportListSync\"}' \
-    $'http://host:7878/api/v3/command''
-```
 ## Jackett
-В  поля Proxy URL и Proxy port прописываем `IP` и `port` нашего TOR.
+In fields 'Proxy URL' and 'Proxy port' set ip and port our tor proxy.
 
 ## Plex 
-![картинка](https://lg-help.ru/img/868_1.gif)
+![image](https://lg-help.ru/img/868_1.gif)
 
-[Образ](https://hub.docker.com/r/linuxserver/plex):
-1. **lscr.io/linuxserver/plex** - образ использует ресурсы CPU при [транскодировании](https://en.wikipedia.org/wiki/Transcoding). 
-1. **nixta/plex-nvdec** - образ использует ресурсы NVidia видеокарты при [транскодировании](https://en.wikipedia.org/wiki/Transcoding). При использовании этого образа не работает приложение на смартфоне и ТВ (не видны прокинутые папки).
+[image](https://hub.docker.com/r/linuxserver/plex):
+1. **lscr.io/linuxserver/plex** - image use CPU for [transcode](https://en.wikipedia.org/wiki/Transcoding). 
+1. **nixta/plex-nvdec** - image use NVIDIA for [транскодировании](https://en.wikipedia.org/wiki/Transcoding). Do not work app for smartphone, if you use this image (not visible folders).
 
 **claim**<br>
 [claim](https://www.plex.tv/claim/)
 
-
-**Запуск**<br>
+**Launch**<br>
 `your-ip:32400/web`
 
-**Стриминг на VLC** 
-1. На сервере DLNA -> Включить DLNA сервер.
-1. В плейлисте VLC открыть "Протокол UPnP".
-
-**Смартфон** приложение Nextcloud для смартфона устанавливаем через [FDroid](https://f-droid.org/). Мой [репозиторий Nextcloud](https://github.com/VolokzhaninVadim/nextcloud).
+**Streaming in VLC** 
+1. On server DLNA -> DLNA on.
+1. In playlist VLC open "Protocol UPnP".
 
 **Transcode Nvidia**
-* Удаляем старые драйвера
+* Del old drivers
 ```
-# Удаляем старые драйвера
+# Del old drivers
 sudo apt remove nvidia-*
 sudo add-apt-repository --remove ppa:graphics-drivers/ppa
 sudo apt remove xserver-xorg-video-nvidia-*
@@ -86,32 +72,41 @@ sudo apt update
 rm -Rf /usr/local/cuda/
 sudo reboot
 ```
-* Устанавливаем драйвера и cuda
+* Install drivers and cuda
 ```
-# Возвращаем нужный репозиторий
+# Set repository
 sudo add-apt-repository ppa:graphics-drivers/ppa 
-# Вывод всех доступных версий драйвера
+# View all drivers
 sudo apt list nvidia-driver-* 
-# Устанавливаем необхлодимую версию драйвера
+# Install necessary driver version
 sudo apt install nvidia-driver-450 
-# Устанавливаем nv-runtime для докера
+# Install nv-runtime for docker
 sudo apt-get install -y nvidia-container-toolkit 
 sudo reboot
 ```
-* Проверка работы 
+* Check work
 ```
-# Проверка работы 1 
+# Check work 1 
 sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 
-# Проверка работы 2
+# Check work 2
 nvidia-smi
 ```
-![картинка](https://user-images.githubusercontent.com/27136123/158003064-36a0e350-ce76-4f23-99f0-5c9f930171b2.png)
+![image](https://user-images.githubusercontent.com/27136123/158003064-36a0e350-ce76-4f23-99f0-5c9f930171b2.png)
 
-**Плагин для импорта метаданных фильмов**<br>
-![картинка](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kinopoisk_colored_logo_%282021-present%29.svg/220px-Kinopoisk_colored_logo_%282021-present%29.svg.png)<br>
-Установка описана [тут](https://github.com/Jenstel/Kinopoisk.bundle).
+**Plagin for import films**<br>
+![image](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kinopoisk_colored_logo_%282021-present%29.svg/220px-Kinopoisk_colored_logo_%282021-present%29.svg.png)<br>
+[Describing of install](https://github.com/Jenstel/Kinopoisk.bundle).
 
-## Смартфон
-Устанавливаем [nzb360](https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360)<br>
+## Cron 
+```
+# Radarr
+@hourly curl -i -s -k -X $'POST' -H $'Host: vvy.tplinkdns.com:7878' -H $'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0' -H $'Accept: application/json, text/javasc>
+# Photoprism
+@hourly docker exec -t photoprism photoprism index
+# Change owner 
+@daily sudo chown -R ubuntu:ubuntu /mnt/media/video /mnt/media/serial /mnt/media/music
+```
+## Smartphone
+Install [nzb360](https://play.google.com/store/apps/details?id=com.kevinforeman.nzb360)<br>
 ![](https://play-lh.googleusercontent.com/hjpWUw2sBsC0fpbPFUAChsjx-yC0-57zjZLdG8GQUw_FhVehK19pY0HIdDDysrdh7BM=s180)
