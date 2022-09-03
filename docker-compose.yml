@@ -173,7 +173,7 @@ services:
       # "/host/folder:/photoprism/folder"                # Example
       - "/mnt/backup/photo:/photoprism/originals"               # Original media files (DO NOT REMOVE)
       - "/mnt/backup/backup/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
-      - "/mnt/backup/backup/angels_smartphones:/photoprism/originals/angels_smartphones"
+      - "/mnt/backup/backup/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - ".config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
 
