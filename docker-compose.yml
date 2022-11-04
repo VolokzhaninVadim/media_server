@@ -8,7 +8,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Asia/Vladivostok
+      - TZ=Europe/Moscow
       - AUTO_UPDATE=true
     volumes:
       - ./config_jackett:/config
@@ -23,12 +23,27 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Asia/Vladivostok
+      - TZ=Europe/Moscow 
     volumes:
       - ./config_radarr:/config
       - /mnt/media/:/downloads 
-    ports:
+    ports: 
       - 7878:7878
+    restart: unless-stopped
+
+# Music finder
+  lidarr:
+    image: lscr.io/linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow 
+    volumes:
+      - ./config_lidarr:/config
+      - /mnt/media/:/downloads
+    ports:
+      - 8686:8686
     restart: unless-stopped
 
 # Tor proxy 
@@ -57,6 +72,7 @@ services:
       - PGID=1000
       - USER=${LOGIN_TRANSMISSION}
       - PASS=${PASSWORD_TRANSMISSION}
+      
     volumes: 
       - /mnt/media/torrents/:/downloads
       - /mnt/media/torrents/torrents/:/watch
@@ -104,6 +120,7 @@ services:
      # - /dev/nvram
     #runtime: nvidia
     restart: unless-stopped
+
 # Photo and video  analyze
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
@@ -143,14 +160,14 @@ services:
       # PHOTOPRISM_DATABASE_DRIVER: "sqlite"         # SQLite is an embedded database that doesn't require a server
       PHOTOPRISM_DATABASE_DRIVER: "mysql"            # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
       PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"     # MariaDB or MySQL database server (hostname:port)
-      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB or MySQL database schema name
-      PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB or MySQL database user name
-      PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB or MySQL database user password
+      PHOTOPRISM_DATABASE_NAME: ${MARIADB_DATABASE}  # MariaDB or MySQL database schema name
+      PHOTOPRISM_DATABASE_USER: ${MARIADB_USER}      # MariaDB or MySQL database user name
+      PHOTOPRISM_DATABASE_PASSWORD: ${MARIADB_PASSWORD} # MariaDB or MySQL database user password
       PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
       PHOTOPRISM_SITE_DESCRIPTION: ""                # meta site description
       PHOTOPRISM_SITE_AUTHOR: ""                     # meta site author
       ## Run/install on first startup (options: update, gpu, tensorflow, davfs, clitools, clean):
-      PHOTOPRISM_INIT: "gpu tensorflow"
+      #PHOTOPRISM_INIT: "gpu tensorflow"
       ## Hardware Video Transcoding (for sponsors only due to high maintenance and support costs):
       PHOTOPRISM_FFMPEG_ENCODER: "software"        # FFmpeg encoder ("software", "intel", "nvidia", "apple", "raspberry")
       PHOTOPRISM_FFMPEG_BITRATE: "32"              # FFmpeg encoding bitrate limit in Mbit/s (default: 50)
@@ -175,7 +192,7 @@ services:
       - "/mnt/backup/backup/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
       - "/mnt/backup/backup/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      - ".config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+      - "./config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
 
   ## Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
@@ -191,11 +208,11 @@ services:
     command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
-      - ".config_photoprism/database:/var/lib/mysql" # DO NOT REMOVE
+      - "./config_photoprism/database:/var/lib/mysql" # DO NOT REMOVE
     environment:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
-      MARIADB_DATABASE: "photoprism"
-      MARIADB_USER: "photoprism"
-      MARIADB_PASSWORD: "insecure"
-      MARIADB_ROOT_PASSWORD: "insecure"
+      MARIADB_DATABASE: ${MARIADB_DATABASE} 
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
