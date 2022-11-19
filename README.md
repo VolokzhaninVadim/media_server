@@ -17,7 +17,7 @@ sudo apt install python3-pip
 sudo pip3 install docker-compose
 ```
 
-## TOR 
+## [TOR](https://gitlab.com/skobkin/torproxy-obfs4)
 ![image](https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Tor-logo-2011-flat.svg/306px-Tor-logo-2011-flat.svg.png)
 
 **Variable environments:**<br> 
@@ -38,13 +38,30 @@ curl --socks5 http://192.168.0.140:9050 -L http://ifconfig.me
 **Proxy server in Firefox:**<br> 
 ![picture](https://lumpics.ru/wp-content/uploads/2016/08/Tor-dlya-Firefox-3.png)
 
-## Radarr
-![image](https://github.com/Radarr/Radarr/blob/develop/Logo/400.png?raw=true)
+## [Radarr](https://github.com/linuxserver/docker-radarr?ysclid=lanu31pwpf129931383)
+Film finder
 
-## Jackett
+![image](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr.png)
+
+## [Lidarr](https://github.com/linuxserver/docker-lidarr?ysclid=lanu5lhe2r188588298)
+Music finder
+
+![image](https://github.com/lidarr/Lidarr/raw/develop/Logo/256.png)
+
+## [Photoprism](https://github.com/photoprism/photoprism?ysclid=lanua0fmt9285434596)
+AI-Powered Photos/Videos App 
+
+![image](https://dl.photoprism.app/img/logo/logo.svg)
+
+## [Jackett](https://github.com/linuxserver/docker-jackett)
+Torrents indexator
+
+![image](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/jackett-banner.png)
+
 In fields 'Proxy URL' and 'Proxy port' set ip and port our tor proxy.
 
-## Plex 
+## [Plex](https://github.com/linuxserver/docker-plex?ysclid=lanuewxt9n57033389) 
+Media server
 ![image](https://lg-help.ru/img/868_1.gif)
 
 [image](https://hub.docker.com/r/linuxserver/plex):
