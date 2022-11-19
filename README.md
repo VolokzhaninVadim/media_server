@@ -62,6 +62,7 @@ In fields 'Proxy URL' and 'Proxy port' set ip and port our tor proxy.
 
 ## [Plex](https://github.com/linuxserver/docker-plex?ysclid=lanuewxt9n57033389) 
 Media server
+
 ![image](https://lg-help.ru/img/868_1.gif)
 
 [image](https://hub.docker.com/r/linuxserver/plex):
