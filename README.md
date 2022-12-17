@@ -43,6 +43,12 @@ Film finder
 
 ![image](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr.png)
 
+## [Sonarr](https://github.com/linuxserver/docker-sonarr)
+TV series finder
+
+![image](https://github.com/Sonarr/Sonarr/blob/develop/Logo/256.png)
+
+
 ## [Lidarr](https://github.com/linuxserver/docker-lidarr?ysclid=lanu5lhe2r188588298)
 Music finder
 
