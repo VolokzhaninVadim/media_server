@@ -16,6 +16,22 @@ services:
       - 9117:9117
     restart: unless-stopped
 
+# TV series finder
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow
+    volumes:
+      - ./config_sonarr:/config
+      - /mnt/media/serial:/tv #optional
+      - /mnt/media/torrents:/downloads 
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
 # Film finder
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -124,7 +140,7 @@ services:
 # Photo and video  analyze
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
-    image: photoprism/photoprism:impish
+    image: photoprism/photoprism:220617-jammy
     container_name: photoprism
     depends_on:
       - mariadb
