@@ -121,6 +121,7 @@ nvidia-smi
 **Plagin for import films**<br>
 ![image](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kinopoisk_colored_logo_%282021-present%29.svg/220px-Kinopoisk_colored_logo_%282021-present%29.svg.png)<br>
 [Describing of install](https://github.com/Jenstel/Kinopoisk.bundle).
+[All plex-plugins](https://github.com/Plex-Plugins).
 
 ## Cron 
 ```
