@@ -126,6 +126,7 @@ services:
       - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
+      - /mnt/media/audiobook:/audiobook
     #devices:  
      # - /dev/nvidia0
      # - /dev/nvidia-caps
