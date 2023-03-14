@@ -137,3 +137,6 @@ nvidia-smi
 ![](https://play-lh.googleusercontent.com/hjpWUw2sBsC0fpbPFUAChsjx-yC0-57zjZLdG8GQUw_FhVehK19pY0HIdDDysrdh7BM=s180)
 1. Install [plex](https://play.google.com/store/apps/details/Plex_Stream_Free_Movies_Watch_Live_TV_Shows_Now?id=com.plexapp.android&hl=en_GB&gl=US)<br>
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Plex_logo_2022.svg/120px-Plex_logo_2022.svg.png)
+
+## Browser 
+Install add-on [Servarr Auto Search (Sonarr, Radarr, Lidarr and Readarr)](https://github.com/trossr32/sonarr-radarr-lidarr-autosearch-browser-extension).
