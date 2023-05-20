@@ -101,7 +101,7 @@ services:
 
 # Mediaserver
   plex:
-    image: lscr.io/linuxserver/plex #nixta/plex-nvdec
+    image: lscr.io/linuxserver/plex:latest #nixta/plex-nvdec 
     container_name: plex
     network_mode: host
     environment:
@@ -110,8 +110,8 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM} 
       - UMASK=022
       - VERSION=latest
-      #- NVIDIA_VISIBLE_DEVICES=all           
-      #- NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - NVIDIA_VISIBLE_DEVICES=all           
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - VERSION=docker
     volumes:
       - ./transcode_plex:/transcode
@@ -127,21 +127,21 @@ services:
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
       - /mnt/media/audiobook:/audiobook
-    #devices:  
-     # - /dev/nvidia0
-     # - /dev/nvidia-caps
-     # - /dev/nvidiactl
-     # - /dev/nvidia-modeset
-     # - /dev/nvidia-uvm
-     # - /dev/nvidia-uvm-tools
-     # - /dev/nvram
-    #runtime: nvidia
+    devices:  
+      - /dev/nvidia0
+      - /dev/nvidia-caps
+      - /dev/nvidiactl
+      - /dev/nvidia-modeset
+      - /dev/nvidia-uvm
+      - /dev/nvidia-uvm-tools
+      - /dev/nvram
+    runtime: nvidia
     restart: unless-stopped
 
 # Photo and video  analyze
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
-    image: photoprism/photoprism:220617-jammy
+    image: photoprism/photoprism:latest
     container_name: photoprism
     depends_on:
       - mariadb
