@@ -27,7 +27,7 @@ services:
     volumes:
       - ./config_sonarr:/config
       - /mnt/media/serial:/tv #optional
-      - /mnt/media/torrents:/downloads 
+      - /mnt/media/downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -39,11 +39,12 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Moscow 
+      - TZ=Europe/Moscow
     volumes:
       - ./config_radarr:/config
-      - /mnt/media/:/downloads 
-    ports: 
+      - /mnt/media/video:/movies
+      - /mnt/media/downloads:/downloads
+    ports:
       - 7878:7878
     restart: unless-stopped
 
@@ -54,15 +55,16 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Moscow 
+      - TZ=Europe/Moscow
     volumes:
       - ./config_lidarr:/config
-      - /mnt/media/:/downloads
+      - /mnt/media/music:/music
+      - /mnt/media/downloads:/downloads
     ports:
       - 8686:8686
     restart: unless-stopped
 
-# Tor proxy 
+# Tor proxy
   tor-privoxy:
     image: registry.gitlab.com/skobkin/torproxy-obfs4
     container_name: tor-privoxy
@@ -88,12 +90,11 @@ services:
       - PGID=1000
       - USER=${LOGIN_TRANSMISSION}
       - PASS=${PASSWORD_TRANSMISSION}
-      
-    volumes: 
-      - /mnt/media/torrents/:/downloads
-      - /mnt/media/torrents/torrents/:/watch
+    volumes:
+      - /mnt/media/downloads/:/downloads
+      - /mnt/media/torrents/:/watch
       - ./config_transmission/:/config
-    ports:   
+    ports:
       - 9092:9091
       - 51412:51413
       - 51412:51413/udp
@@ -101,21 +102,28 @@ services:
 
 # Mediaserver
   plex:
-    image: lscr.io/linuxserver/plex:latest #nixta/plex-nvdec 
+    image: plexinc/pms-docker:latest #linuxserver/plex:latest #nixta/plex-nvdec:latest
     container_name: plex
     network_mode: host
     environment:
-      - PUID=1000 
-      - PGID=100 
-      - PLEX_CLAIM=${PLEX_CLAIM} 
+      - PUID=1000
+      - PGID=100
+      - PLEX_CLAIM=${PLEX_CLAIM}
       - UMASK=022
       - VERSION=latest
-      - NVIDIA_VISIBLE_DEVICES=all           
+      - CHANGE_CONFIG_DIR_OWNERSHIP=true
+      - LD_LIBRARY_PATH=/opt/cuda/lib64:/usr/local/cuda/lib64
+      - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - CUDADIR=/usr/local/cuda
+      - CUDA_HOME=/usr/local/cuda
+      - FORCE_CUDA=1
+      - CUDA_VISIBLE_DEVICES=0
+      - CUDA_LAUNCH_BLOCKING=1
       - VERSION=docker
     volumes:
       - ./transcode_plex:/transcode
-      - ./config_plex:/config 
+      - ./config_plex:/config
       - /mnt/media/music:/music
       - /mnt/media/cartoon:/cartoon
       - /mnt/media/pictures:/pictures
@@ -127,14 +135,18 @@ services:
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
       - /mnt/media/audiobook:/audiobook
-    devices:  
-      - /dev/nvidia0
-      - /dev/nvidia-caps
-      - /dev/nvidiactl
-      - /dev/nvidia-modeset
-      - /dev/nvidia-uvm
-      - /dev/nvidia-uvm-tools
-      - /dev/nvram
+    ports:
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    devices:
+      - /dev/dri:/dev/dri
     runtime: nvidia
     restart: unless-stopped
 
@@ -229,7 +241,7 @@ services:
     environment:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
-      MARIADB_DATABASE: ${MARIADB_DATABASE} 
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
