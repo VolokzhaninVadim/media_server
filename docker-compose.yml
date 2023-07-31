@@ -155,6 +155,7 @@ services:
     ## Use photoprism/photoprism:preview for testing preview builds:
     image: photoprism/photoprism:latest
     container_name: photoprism
+    restart: unless-stopped
     depends_on:
       - mariadb
     ## Don't enable automatic restarts until PhotoPrism has been properly configured and tested!
