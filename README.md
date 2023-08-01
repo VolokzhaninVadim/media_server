@@ -118,8 +118,6 @@ nvidia-smi
 ```
 ![image](https://user-images.githubusercontent.com/27136123/158003064-36a0e350-ce76-4f23-99f0-5c9f930171b2.png)
 
-For backup use [media_server.sh](./media_server.sh) and [dag airflow](https://github.com/VolokzhaninVadim/airflow/blob/main/dags/backup_s3.py).
-
 **Plagin for import films**<br>
 ![image](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Kinopoisk_colored_logo_%282021-present%29.svg/220px-Kinopoisk_colored_logo_%282021-present%29.svg.png)<br>
 [Describing of install](https://github.com/Jenstel/Kinopoisk.bundle).<br>
@@ -142,3 +140,7 @@ For backup use [media_server.sh](./media_server.sh) and [dag airflow](https://gi
 
 ## Browser
 Install add-on [Servarr Auto Search (Sonarr, Radarr, Lidarr and Readarr)](https://github.com/trossr32/sonarr-radarr-lidarr-autosearch-browser-extension).
+
+## Backup
+For backup use [backup.sh](./backup.sh) and [unzip.sh](./unzip.sh).<br>
+[Yandex s3](https://cloud.yandex.ru/docs/storage/tools/s3fs).
