@@ -129,7 +129,7 @@ services:
       - /mnt/media/pictures:/pictures
       - /mnt/media/serial:/serial
       - /mnt/media/video:/video
-      - /mnt/backup/my videos/:/my_video
+      - /mnt/backup/video/:/my_video
       - /mnt/backup/photo/:/my_pictures
       - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
@@ -221,6 +221,8 @@ services:
       - "/mnt/backup/photo:/photoprism/originals"               # Original media files (DO NOT REMOVE)
       - "/mnt/backup/backup/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
       - "/mnt/backup/backup/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
+      - /mnt/backup/video/:/photoprism/originals/my_video
+      - /mnt/backup/photo/:/photoprism/originals/my_pictures
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
 
