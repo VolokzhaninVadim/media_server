@@ -12,9 +12,11 @@ services:
       - AUTO_UPDATE=true
     volumes:
       - ./config_jackett:/config
-    ports:
-      - 9117:9117
+    # ports:
+    #   - 9117:9117
     restart: unless-stopped
+    networks:
+      - default
 
 # TV series finder
   sonarr:
@@ -28,9 +30,11 @@ services:
       - ./config_sonarr:/config
       - /mnt/media/serial:/tv #optional
       - /mnt/media/downloads:/downloads
-    ports:
-      - 8989:8989
+    # ports:
+    #   - 8989:8989
     restart: unless-stopped
+    networks:
+      - default
 
 # Film finder
   radarr:
@@ -44,9 +48,11 @@ services:
       - ./config_radarr:/config
       - /mnt/media/video:/movies
       - /mnt/media/downloads:/downloads
-    ports:
-      - 7878:7878
+    # ports:
+    #   - 7878:7878
     restart: unless-stopped
+    networks:
+      - default
 
 # Music finder
   lidarr:
@@ -60,9 +66,11 @@ services:
       - ./config_lidarr:/config
       - /mnt/media/music:/music
       - /mnt/media/downloads:/downloads
-    ports:
-      - 8686:8686
+    # ports:
+    #   - 8686:8686
     restart: unless-stopped
+    networks:
+      - default
 
 # Tor proxy
   tor-privoxy:
@@ -80,6 +88,8 @@ services:
       options:
         max-size: "${LOG_MAX_SIZE:-5m}"
         max-file: "${LOG_MAX_FILE:-5}"
+    networks:
+      - default
 
 # Torrent client
   transmission:
@@ -94,17 +104,18 @@ services:
       - /mnt/media/downloads/:/downloads
       - /mnt/media/torrents/:/watch
       - ./config_transmission/:/config
-    ports:
-      - 9092:9091
-      - 51412:51413
-      - 51412:51413/udp
+    # ports:
+    #   - 9092:9091
+    #   - 51412:51413
+    #   - 51412:51413/udp
     restart: unless-stopped
+    networks:
+      - default
 
 # Mediaserver
   plex:
     image: plexinc/pms-docker:latest #linuxserver/plex:latest #nixta/plex-nvdec:latest
     container_name: plex
-    network_mode: host
     environment:
       - PUID=1000
       - PGID=100
@@ -135,20 +146,23 @@ services:
       - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/backup/cources/:/cources
       - /mnt/media/audiobook:/audiobook
-    ports:
-      - 32400:32400/tcp
-      - 3005:3005/tcp
-      - 8324:8324/tcp
-      - 32469:32469/tcp
-      - 1900:1900/udp
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
+    # ports:
+    #   - 32400:32400/tcp
+    #   - 3005:3005/tcp
+    #   - 8324:8324/tcp
+    #   - 32469:32469/tcp
+    #   - 1900:1900/udp
+    #   - 32410:32410/udp
+    #   - 32412:32412/udp
+    #   - 32413:32413/udp
+    #   - 32414:32414/udp
     devices:
       - /dev/dri:/dev/dri
     runtime: nvidia
     restart: unless-stopped
+    networks:
+      - default
+
 
 # Photo and video  analyze
   photoprism:
@@ -165,8 +179,8 @@ services:
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
-    ports:
-      - "2342:2342" # HTTP port (host:container)
+    # ports:
+    #   - "2342:2342" # HTTP port (host:container)
     environment:
       PHOTOPRISM_ADMIN_PASSWORD: "insecure"          # INITIAL PASSWORD FOR "admin" USER, MINIMUM 8 CHARACTERS
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
@@ -248,3 +262,10 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    networks:
+      - default
+
+networks:
+  default:
+    external: true
+    name: volokzhanin
