@@ -239,6 +239,8 @@ services:
       - /mnt/backup/photo/:/photoprism/originals/my_pictures
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+    networks:
+      - default
 
   ## Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
