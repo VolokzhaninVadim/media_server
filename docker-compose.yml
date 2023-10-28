@@ -11,7 +11,7 @@ services:
       - TZ=Europe/Moscow
       - AUTO_UPDATE=true
     volumes:
-      - ./config_jackett:/config
+      - /mnt/backup/documents/docker/media_server/config_jackett:/config
     # ports:
     #   - 9117:9117
     restart: unless-stopped
@@ -27,7 +27,7 @@ services:
       - PGID=1000
       - TZ=Europe/Moscow
     volumes:
-      - ./config_sonarr:/config
+      - /mnt/backup/documents/docker/media_server/config_sonarr:/config
       - /mnt/media/serial:/tv #optional
       - /mnt/media/downloads:/downloads
     # ports:
@@ -45,7 +45,7 @@ services:
       - PGID=1000
       - TZ=Europe/Moscow
     volumes:
-      - ./config_radarr:/config
+      - /mnt/backup/documents/docker/media_server/config_radarr:/config
       - /mnt/media/video:/movies
       - /mnt/media/downloads:/downloads
     # ports:
@@ -63,7 +63,7 @@ services:
       - PGID=1000
       - TZ=Europe/Moscow
     volumes:
-      - ./config_lidarr:/config
+      - /mnt/backup/documents/docker/media_server/config_lidarr:/config
       - /mnt/media/music:/music
       - /mnt/media/downloads:/downloads
     # ports:
@@ -81,7 +81,7 @@ services:
       - "9050:9050"
       - "9051:9051"
     volumes:
-      - "./config_tor/torrc:/etc/tor/torrc:ro"
+      - "/mnt/backup/documents/docker/media_server/config_tor/torrc:/etc/tor/torrc:ro"
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -103,7 +103,7 @@ services:
     volumes:
       - /mnt/media/downloads/:/downloads
       - /mnt/media/torrents/:/watch
-      - ./config_transmission/:/config
+      - /mnt/backup/documents/docker/media_server/config_transmission/:/config
     # ports:
     #   - 9092:9091
     #   - 51412:51413
@@ -133,8 +133,8 @@ services:
       - CUDA_LAUNCH_BLOCKING=1
       - VERSION=docker
     volumes:
-      - ./transcode_plex:/transcode
-      - ./config_plex:/config
+      - /mnt/backup/documents/docker/media_server/transcode_plex:/transcode
+      - /mnt/backup/documents/docker/media_server/config_plex:/config
       - /mnt/media/music:/music
       - /mnt/media/cartoon:/cartoon
       - /mnt/media/pictures:/pictures
@@ -238,7 +238,7 @@ services:
       - /mnt/backup/video/:/photoprism/originals/my_video
       - /mnt/backup/photo/:/photoprism/originals/my_pictures
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      - "./config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+      - "/mnt/backup/documents/docker/media_server/config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
     networks:
       - default
 
@@ -256,7 +256,7 @@ services:
     command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
-      - "./config_photoprism/database:/var/lib/mysql" # DO NOT REMOVE
+      - "/mnt/backup/documents/docker/media_server/config_photoprism/database:/var/lib/mysql" # DO NOT REMOVE
     environment:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
