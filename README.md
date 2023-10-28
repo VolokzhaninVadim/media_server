@@ -140,7 +140,3 @@ nvidia-smi
 
 ## Browser
 Install add-on [Servarr Auto Search (Sonarr, Radarr, Lidarr and Readarr)](https://github.com/trossr32/sonarr-radarr-lidarr-autosearch-browser-extension).
-
-## Backup
-For backup use [backup.sh](./backup.sh) and [unzip.sh](./unzip.sh).<br>
-[Yandex s3](https://cloud.yandex.ru/docs/storage/tools/s3fs).
