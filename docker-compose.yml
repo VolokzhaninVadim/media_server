@@ -136,7 +136,6 @@ services:
       - /mnt/backup/documents/docker/media_server/transcode_plex:/transcode
       - /mnt/backup/documents/docker/media_server/config_plex:/config
       - /mnt/media/music:/music
-      - /mnt/media/cartoon:/cartoon
       - /mnt/media/pictures:/pictures
       - /mnt/media/serial:/serial
       - /mnt/media/video:/video
