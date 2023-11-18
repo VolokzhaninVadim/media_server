@@ -48,7 +48,6 @@ TV series finder
 
 ![image](https://github.com/Sonarr/Sonarr/blob/develop/Logo/256.png)
 
-
 ## [Lidarr](https://github.com/linuxserver/docker-lidarr?ysclid=lanu5lhe2r188588298)
 Music finder
 
@@ -140,3 +139,6 @@ nvidia-smi
 
 ## Browser
 Install add-on [Servarr Auto Search (Sonarr, Radarr, Lidarr and Readarr)](https://github.com/trossr32/sonarr-radarr-lidarr-autosearch-browser-extension).
+
+## Backup
+For backup use [backup-server](https://github.com/VolokzhaninVadim/duplicati).
