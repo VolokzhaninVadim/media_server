@@ -114,24 +114,22 @@ services:
 
 # Mediaserver
   plex:
-    image: plexinc/pms-docker:latest #linuxserver/plex:latest #nixta/plex-nvdec:latest
+    image: plexinc/pms-docker:latest
     container_name: plex
     environment:
       - PUID=1000
       - PGID=100
       - PLEX_CLAIM=${PLEX_CLAIM}
       - UMASK=022
-      - VERSION=latest
       - CHANGE_CONFIG_DIR_OWNERSHIP=true
       - LD_LIBRARY_PATH=/opt/cuda/lib64:/usr/local/cuda/lib64
       - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - NVIDIA_DRIVER_CAPABILITIES=all
       - CUDADIR=/usr/local/cuda
       - CUDA_HOME=/usr/local/cuda
       - FORCE_CUDA=1
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=1
-      - VERSION=docker
     volumes:
       - /mnt/backup/documents/docker/media_server/transcode_plex:/transcode
       - /mnt/backup/documents/docker/media_server/config_plex:/config
