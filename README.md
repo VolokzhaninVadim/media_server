@@ -1,20 +1,12 @@
-## [TOR](https://gitlab.com/skobkin/torproxy-obfs4)
+## [TOR](https://github.com/zerolabnet/tor-bridges-proxy)
 ![image](https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Tor-logo-2011-flat.svg/306px-Tor-logo-2011-flat.svg.png)
-
-**Variable environments:**<br>
-```bash
-sudo nano /etc/bash.bashrc
-# Set variables
-source /etc/bash.bashrc
-```
-Example for config got from [here](https://gitlab.com/skobkin/docker-stacks/-/tree/master/tor-privoxy). Example for [torrc](https://gitlab.com/skobkin/docker-stacks/-/blob/master/tor-privoxy/config/torrc.dist).
 
 **Checking work:**<br>
 ```bash
-# Outside of container
-curl --socks5 http://localhost:9050 -L http://ifconfig.me
+# Inside of container
+curl --socks5 http://localhost:9050 -L https://2ip.ru
 # From another container (192.168.0.140 - ip host)
-curl --socks5 http://192.168.0.140:9050 -L http://ifconfig.me
+curl --socks5 http://192.168.0.140:9050 -L https://2ip.ru
 ```
 **Proxy server in Firefox:**<br>
 ![picture](https://lumpics.ru/wp-content/uploads/2016/08/Tor-dlya-Firefox-3.png)
@@ -66,7 +58,7 @@ Media server
 1. In playlist VLC open "Protocol UPnP".
 
 **Transcode Nvidia**
-* Del old drivers
+* Delete old drivers
 ```bash
 # Del old drivers
 sudo apt remove nvidia-*

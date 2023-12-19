@@ -73,21 +73,14 @@ services:
       - default
 
 # Tor proxy
-  tor-privoxy:
-    image: registry.gitlab.com/skobkin/torproxy-obfs4
-    container_name: tor-privoxy
+  tor-bridges-proxy:
+    image: zerolabnet/tor-bridges-proxy:latest
+    container_name: tor-bridges-proxy
     ports:
-      - "8118:8118"
-      - "9050:9050"
-      - "9051:9051"
-    volumes:
-      - "/mnt/backup/documents/docker/media_server/config_tor/torrc:/etc/tor/torrc:ro"
+      - "9050:9150"
+    #   - "9151:9151"
+    #   - "53:9053"
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "${LOG_MAX_SIZE:-5m}"
-        max-file: "${LOG_MAX_FILE:-5}"
     networks:
       - default
 
