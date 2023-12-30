@@ -43,9 +43,7 @@ Media server
 
 ![image](https://lg-help.ru/img/868_1.gif)
 
-[image](https://hub.docker.com/r/linuxserver/plex):
-1. **lscr.io/linuxserver/plex** - image use CPU for [transcode](https://en.wikipedia.org/wiki/Transcoding).
-1. **nixta/plex-nvdec** - image use NVIDIA for [транскодировании](https://en.wikipedia.org/wiki/Transcoding). Do not work app for smartphone, if you use this image (not visible folders).
+[Source image](https://hub.docker.com/r/linuxserver/plex). I took the idea from [plex-nvdec](https://github.com/niXta1/plex-nvdec).
 
 **claim**<br>
 [claim](https://www.plex.tv/claim/)

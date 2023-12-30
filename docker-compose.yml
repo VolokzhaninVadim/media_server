@@ -107,7 +107,8 @@ services:
 
 # Mediaserver
   plex:
-    image: plexinc/pms-docker:latest
+    build:
+      .
     container_name: plex
     environment:
       - PUID=1000
@@ -124,9 +125,7 @@ services:
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=1
     volumes:
-      - /mnt/backup/documents/docker/media_server/transcode_plex:/transcode
-      - /mnt/backup/documents/docker/media_server/transcoder_plex:/usr/lib/plexmediaserver/Plex\ Transcoder
-      - /mnt/backup/documents/docker/media_server/transcoder_plex2:/usr/lib/plexmediaserver/Plex\ Transcoder2
+      - /dev/shm:/transcode
       - /mnt/backup/documents/docker/media_server/config_plex:/config
       - /mnt/media/music:/music
       - /mnt/media/pictures:/pictures
@@ -152,9 +151,7 @@ services:
       - /dev/dri:/dev/dri
     runtime: nvidia
     restart: unless-stopped
-    networks:
-      - default
-
+    network_mode: host
 
 # Photo and video  analyze
   photoprism:
