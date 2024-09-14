@@ -81,7 +81,7 @@ sudo reboot
 * Check work
 ```bash
 # Check work 1
-sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
 
 # Check work 2
 nvidia-smi
