@@ -1,16 +1,3 @@
-## [TOR](https://github.com/zerolabnet/tor-bridges-proxy)
-![image](https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Tor-logo-2011-flat.svg/306px-Tor-logo-2011-flat.svg.png)
-
-**Checking work:**<br>
-```bash
-# Inside of container
-curl --socks5 http://localhost:9050 -L https://2ip.ru
-# From another container (192.168.0.140 - ip host)
-curl --socks5 http://192.168.0.140:9050 -L https://2ip.ru
-```
-**Proxy server in Firefox:**<br>
-![picture](https://lumpics.ru/wp-content/uploads/2016/08/Tor-dlya-Firefox-3.png)
-
 ## [Radarr](https://github.com/linuxserver/docker-radarr?ysclid=lanu31pwpf129931383)
 Film finder
 
@@ -137,6 +124,3 @@ nvidia-smi
 
 ## Browser
 Install add-on [Servarr Auto Search (Sonarr, Radarr, Lidarr and Readarr)](https://github.com/trossr32/sonarr-radarr-lidarr-autosearch-browser-extension).
-
-## Backup
-For backup use [backup-server](https://github.com/VolokzhaninVadim/duplicati).
