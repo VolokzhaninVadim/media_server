@@ -68,16 +68,42 @@ sudo reboot
 ```
 * Install drivers and cuda
 ```bash
-# Set repository
-sudo add-apt-repository ppa:graphics-drivers/ppa
-# View all drivers
-sudo apt list nvidia-driver-*
-# Install necessary driver version
-sudo apt install nvidia-driver-450
-# Install nv-runtime for docker
-sudo apt-get install -y nvidia-container-toolkit
+# Install 
+sudo apt install build-essential
+gcc --version
+
+
+wget https://us.download.nvidia.com/XFree86/Linux-x86_64/550.107.02/NVIDIA-Linux-x86_64-550.107.02.run 
+chmod +x NVIDIA-Linux-x86_64-550.107.02.run 
+sudo sh ./NVIDIA-Linux-x86_64-550.107.02.run
 sudo reboot
 ```
+* Install container for work cuda in docker 
+```bash 
+sudo apt install nvidia-cuda-toolkit
+
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update 
+sudo apt-get install -y nvidia-container-toolkit
+```
+Edit `/etc/docker/daemon.json`: 
+```json
+{
+    "runtimes": {
+        "nvidia": {
+            "path": "nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    },
+    "default-runtime": "nvidia"
+}
+```
+`sudo systemctl restart docker`
+
 * Check work
 ```bash
 # Check work 1
@@ -85,6 +111,7 @@ docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
 
 # Check work 2
 nvidia-smi
+
 ```
 ![image](https://user-images.githubusercontent.com/27136123/158003064-36a0e350-ce76-4f23-99f0-5c9f930171b2.png)
 

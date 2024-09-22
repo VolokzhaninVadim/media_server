@@ -1,4 +1,3 @@
-version: "2.3"
 services:
 
 # Torrents indexator
@@ -11,9 +10,9 @@ services:
       - TZ=Europe/Moscow
       - AUTO_UPDATE=true
     volumes:
-      - /mnt/backup/documents/docker/media_server/config_jackett:/config
-    # ports:
-    #   - 9117:9117
+      - ./config_jackett:/config
+    ports:
+      - 9117:9117
     restart: unless-stopped
     networks:
       - default
@@ -27,11 +26,11 @@ services:
       - PGID=1000
       - TZ=Europe/Moscow
     volumes:
-      - /mnt/backup/documents/docker/media_server/config_sonarr:/config
+      - ./config_sonarr:/config
       - /mnt/media/serial:/tv #optional
       - /mnt/media/downloads:/downloads
-    # ports:
-    #   - 8989:8989
+    ports:
+      - 8989:8989
     restart: unless-stopped
     networks:
       - default
@@ -45,11 +44,11 @@ services:
       - PGID=1000
       - TZ=Europe/Moscow
     volumes:
-      - /mnt/backup/documents/docker/media_server/config_radarr:/config
+      - ./config_radarr:/config
       - /mnt/media/video:/movies
       - /mnt/media/downloads:/downloads
-    # ports:
-    #   - 7878:7878
+    ports:
+      - 7878:7878
     restart: unless-stopped
     networks:
       - default
@@ -63,23 +62,11 @@ services:
       - PGID=1000
       - TZ=Europe/Moscow
     volumes:
-      - /mnt/backup/documents/docker/media_server/config_lidarr:/config
+      - ./config_lidarr:/config
       - /mnt/media/music:/music
       - /mnt/media/downloads:/downloads
-    # ports:
-    #   - 8686:8686
-    restart: unless-stopped
-    networks:
-      - default
-
-# Tor proxy
-  tor-bridges-proxy:
-    image: zerolabnet/tor-bridges-proxy:latest
-    container_name: tor-bridges-proxy
     ports:
-      - "9050:9150"
-    #   - "9151:9151"
-    #   - "53:9053"
+      - 8686:8686
     restart: unless-stopped
     networks:
       - default
@@ -88,6 +75,7 @@ services:
   transmission:
     image: linuxserver/transmission
     container_name: transmission
+    env_file: ".env"
     environment:
       - PUID=1000
       - PGID=1000
@@ -96,11 +84,11 @@ services:
     volumes:
       - /mnt/media/downloads/:/downloads
       - /mnt/media/torrents/:/watch
-      - /mnt/backup/documents/docker/media_server/config_transmission/:/config
-    # ports:
-    #   - 9092:9091
-    #   - 51412:51413
-    #   - 51412:51413/udp
+      - ./config_transmission/:/config
+    ports:
+      - 9092:9091
+      - 51412:51413
+      - 51412:51413/udp
     restart: unless-stopped
     networks:
       - default
@@ -110,6 +98,7 @@ services:
     build:
       .
     container_name: plex
+    env_file: ".env"
     environment:
       - PUID=1000
       - PGID=100
@@ -126,16 +115,16 @@ services:
       - CUDA_LAUNCH_BLOCKING=1
     volumes:
       - /dev/shm:/transcode
-      - /mnt/backup/documents/docker/media_server/config_plex:/config
+      - ./config_plex:/config
       - /mnt/media/music:/music
       - /mnt/media/pictures:/pictures
       - /mnt/media/serial:/serial
       - /mnt/media/video:/video
-      - /mnt/backup/video/:/my_video
-      - /mnt/backup/photo/:/my_pictures
-      - /mnt/backup/backup/vvy_smartphones/camera/:/camera_vvy
-      - /mnt/backup/backup/angel_smartphones/camera_device_angel/:/camera_angel
-      - /mnt/backup/cources/:/cources
+      - /home/volokzhanin/media/private/video/:/my_video
+      - /home/volokzhanin/media/private/photo/:/my_pictures
+      - /home/volokzhanin/media/private/vvy_smartphones/camera/:/camera_vvy
+      - /home/volokzhanin/media/private/angel_smartphones/camera_device_angel/:/camera_angel
+      - /mnt/media/cources/:/cources
       - /mnt/media/audiobook:/audiobook
     ports:
       - 32400:32400/tcp
@@ -157,6 +146,7 @@ services:
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
     image: photoprism/photoprism:latest
+    env_file: ".env"
     container_name: photoprism
     restart: unless-stopped
     depends_on:
@@ -168,12 +158,12 @@ services:
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
-    # ports:
-    #   - "2342:2342" # HTTP port (host:container)
+    ports:
+      - "2342:2342" # HTTP port (host:container)
     environment:
       PHOTOPRISM_ADMIN_PASSWORD: "insecure"          # INITIAL PASSWORD FOR "admin" USER, MINIMUM 8 CHARACTERS
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-      PHOTOPRISM_SITE_URL: https://${EXTERNAL_URL}:2342/  # public server URL incl http:// or https:// and /path, :port is optional
+     # PHOTOPRISM_SITE_URL:   # public server URL incl http:// or https:// and /path, :port is optional
       PHOTOPRISM_ORIGINALS_LIMIT: 5000               # file size limit for originals in MB (increase for high-res video)
       PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
       PHOTOPRISM_LOG_LEVEL: "info"                   # log level: trace, debug, info, warning, error, fatal, or panic
@@ -222,12 +212,12 @@ services:
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
       # - "/mnt/backup/photo:/photoprism/originals"               # Original media files (DO NOT REMOVE)
-      - "/mnt/backup/backup/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
-      - "/mnt/backup/backup/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
-      - /mnt/backup/video/:/photoprism/originals/my_video
-      - /mnt/backup/photo/:/photoprism/originals/photo
+      - "/home/volokzhanin/media/private/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
+      - "/home/volokzhanin/media/private/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
+      - /home/volokzhanin/media/private/video/:/photoprism/originals/my_video
+      - /home/volokzhanin/media/private/photo/:/photoprism/originals/photo
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      - "/mnt/backup/documents/docker/media_server/config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+      - "./config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
     networks:
       - default
 
@@ -238,14 +228,14 @@ services:
     ## https://docs.photoprism.app/getting-started/troubleshooting/#fatal-server-errors
     restart: unless-stopped
     image: mariadb:10.8
-    container_name: mariadb
+    container_name: mariadb_photoprism
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
     command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
-      - "/mnt/backup/documents/docker/media_server/config_photoprism/database:/var/lib/mysql" # DO NOT REMOVE
+      - "./config_photoprism/database:/var/lib/mysql" # DO NOT REMOVE
     environment:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
