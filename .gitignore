@@ -8,3 +8,4 @@ config_photoprism/*
 config_proxy/*
 config_sonarr/*
 /transcode_plex/*
+.env
