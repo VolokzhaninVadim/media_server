@@ -126,6 +126,7 @@ services:
       - /home/volokzhanin/media/private/angel_smartphones/camera_device_angel/:/camera_angel
       - /mnt/media/cources/:/cources
       - /mnt/media/audiobook:/audiobook
+      - ./root/:/root
     ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
