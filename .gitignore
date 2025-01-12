@@ -7,5 +7,6 @@ config_lidarr/*
 config_photoprism/*
 config_proxy/*
 config_sonarr/*
-/transcode_plex/*
+transcode_plex/*
+config_torrserver/*
 .env
