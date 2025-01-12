@@ -127,23 +127,13 @@ services:
       - /mnt/media/cources/:/cources
       - /mnt/media/audiobook:/audiobook
       - ./root/:/root
-    ports:
-      - 32400:32400/tcp
-      - 3005:3005/tcp
-      - 8324:8324/tcp
-      - 32469:32469/tcp
-      - 1900:1900/udp
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
     devices:
       - /dev/dri:/dev/dri
     runtime: nvidia
     restart: unless-stopped
     network_mode: host
 
-# Photo and video  analyze
+# Photo and video analyze
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
     image: photoprism/photoprism:latest
@@ -261,8 +251,6 @@ services:
     volumes:
         - './config_torrserver/CACHE:/opt/ts/torrents'
         - './config_torrserver/CONFIG:/opt/ts/config'
-    ports:
-        - '5665:5665'
     restart: unless-stopped
 
 
