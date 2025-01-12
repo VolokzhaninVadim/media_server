@@ -25,6 +25,11 @@ Torrents indexator
 
 In fields 'Proxy URL' and 'Proxy port' set ip and port our tor proxy.
 
+## [Toerrserver](https://github.com/YouROK/TorrServer)
+![](https://cs9f3b.4pda.ws/24750223.png)
+
+For Android [download](https://f-droid.org/packages/ru.yourok.torrserve)
+
 ## [Plex](https://github.com/linuxserver/docker-plex?ysclid=lanuewxt9n57033389)
 Media server
 
