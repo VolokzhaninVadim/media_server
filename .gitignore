@@ -9,4 +9,6 @@ config_proxy/*
 config_sonarr/*
 transcode_plex/*
 config_torrserver/*
+config_lampac/*
 .env
+
