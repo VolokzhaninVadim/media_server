@@ -17,60 +17,6 @@ services:
     networks:
       - default
 
-# TV series finder
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Moscow
-    volumes:
-      - ./config_sonarr:/config
-      - /mnt/media/serial:/tv #optional
-      - /mnt/media/downloads:/downloads
-    ports:
-      - 8989:8989
-    restart: unless-stopped
-    networks:
-      - default
-
-# Film finder
-  radarr:
-    image: lscr.io/linuxserver/radarr
-    container_name: radarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Moscow
-    volumes:
-      - ./config_radarr:/config
-      - /mnt/media/video:/movies
-      - /mnt/media/downloads:/downloads
-    ports:
-      - 7878:7878
-    restart: unless-stopped
-    networks:
-      - default
-
-# Music finder
-  lidarr:
-    image: lscr.io/linuxserver/lidarr
-    container_name: lidarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Moscow
-    volumes:
-      - ./config_lidarr:/config
-      - /mnt/media/music:/music
-      - /mnt/media/downloads:/downloads
-    ports:
-      - 8686:8686
-    restart: unless-stopped
-    networks:
-      - default
-
 # Torrent client
   transmission:
     image: linuxserver/transmission
@@ -94,17 +40,13 @@ services:
       - default
 
 # Mediaserver
-  plex:
-    build:
-      .
-    container_name: plex
-    env_file: ".env"
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
     environment:
       - PUID=1000
-      - PGID=100
-      - PLEX_CLAIM=${PLEX_CLAIM}
-      - UMASK=022
-      - CHANGE_CONFIG_DIR_OWNERSHIP=true
+      - PGID=1000
+      - TZ=Europe/Moscow
       - LD_LIBRARY_PATH=/opt/cuda/lib64:/usr/local/cuda/lib64
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -114,23 +56,35 @@ services:
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=1
     volumes:
-      - /dev/shm:/transcode
-      - ./config_plex:/config
-      - /mnt/media/music:/music
-      - /mnt/media/pictures:/pictures
-      - /mnt/media/serial:/serial
-      - /mnt/media/video:/video
-      - /home/volokzhanin/media/private/video/:/my_video
-      - /home/volokzhanin/media/private/photo/:/my_pictures
-      - /home/volokzhanin/media/private/vvy_smartphones/camera/:/camera_vvy
-      - /home/volokzhanin/media/private/angel_smartphones/camera_device_angel/:/camera_angel
-      - /mnt/media/cources/:/cources
-      - /mnt/media/audiobook:/audiobook
-      - ./root/:/root
+      - ./config_jellyfin:/config
+      - /mnt/media/derials:/data/tvshows
+      - /mnt/media/video:/data/movies
+      - /mnt/media/pictures:/data/pictures
+      - /mnt/media/serial:/data/serial
+      - /mnt/private_media/video:/data/my_video
+      - /mnt/private_media/photo:/data/my_photo
+      - /mnt/private_media/vvy_smartphones/camera:/data/camera_vvy
+      - /dev/vcsm:/dev/vcsm
+      - /dev/vchiq:/dev/vchiq
+      - /mnt/private_media/angel_smartphones/camera_device_angel:/data/camera_angel
+      - /mnt/media/cources:/data/cources
+      - /mnt/media/audiobook:/data/audiobook
+      - /mnt/media/music:/data/music
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+ #     - 8920:8920 #optional
+    restart: unless-stopped
     devices:
       - /dev/dri:/dev/dri
+      - /dev/nvidiactl:/dev/nvidiactl
+      - /dev/nvidia0:/dev/nvidia0
+      - /dev/nvidia-modeset:/dev/nvidia-modeset
+    dns:
+      - 9.9.9.9
     runtime: nvidia
-    restart: unless-stopped
     network_mode: host
 
 # Photo and video analyze
@@ -152,6 +106,9 @@ services:
     ports:
       - "2342:2342" # HTTP port (host:container)
     environment:
+      PHOTOPRISM_INDEX_WORKERS: 6
+      PHOTOPRISM_INDEX_SCHEDULE: "@hourly"
+      TZ: "Europe/Moscow"
       PHOTOPRISM_ADMIN_PASSWORD: "insecure"          # INITIAL PASSWORD FOR "admin" USER, MINIMUM 8 CHARACTERS
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
      # PHOTOPRISM_SITE_URL:   # public server URL incl http:// or https:// and /path, :port is optional
@@ -160,7 +117,7 @@ services:
       PHOTOPRISM_LOG_LEVEL: "info"                   # log level: trace, debug, info, warning, error, fatal, or panic
       PHOTOPRISM_READONLY: "false"                   # do not modify originals directory (reduced functionality)
       PHOTOPRISM_EXPERIMENTAL: "false"               # enables experimental features
-      PHOTOPRISM_DISABLE_CHOWN: "false"              # disables storage permission updates on startup
+      PHOTOPRISM_DISABLE_CHOWN: "true"              # disables storage permission updates on startup
       PHOTOPRISM_DISABLE_WEBDAV: "false"             # disables built-in WebDAV server
       PHOTOPRISM_DISABLE_SETTINGS: "false"           # disables settings UI and API
       PHOTOPRISM_DISABLE_TENSORFLOW: "false"         # disables all features depending on TensorFlow
@@ -203,10 +160,10 @@ services:
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
       # - "/mnt/backup/photo:/photoprism/originals"               # Original media files (DO NOT REMOVE)
-      - "/home/volokzhanin/media/private/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
-      - "/home/volokzhanin/media/private/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
-      - /home/volokzhanin/media/private/video/:/photoprism/originals/my_video
-      - /home/volokzhanin/media/private/photo/:/photoprism/originals/photo
+      - "/mnt/private_media/vvy_smartphones:/photoprism/originals/vvy_smartphones" # *Additional* media folders can be mounted like this
+      - "/mnt/private_media/angel_smartphones/camera_device_angel:/photoprism/originals/angel_smartphones"
+      - /mnt/private_media/video/:/photoprism/originals/my_video
+      - /mnt/private_media/photo/:/photoprism/originals/photo
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./config_photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
     networks:
@@ -261,10 +218,11 @@ services:
     volumes:
      # - /media/downloads:/home/dlna
       - ./config_lampac/init.conf:/home/init.conf
-    network_mode: host 
+    network_mode: host
 
 
 networks:
   default:
     external: true
     name: volokzhanin
+
