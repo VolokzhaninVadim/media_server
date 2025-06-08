@@ -1,13 +1,7 @@
 config_jackett/*
-config_plex/*
-config_radarr/*
-config_tor/*
+config_jellyfin/*
 config_transmission/*
-config_lidarr/*
 config_photoprism/*
-config_proxy/*
-config_sonarr/*
-transcode_plex/*
 config_torrserver/*
 config_lampac/*
 .env
