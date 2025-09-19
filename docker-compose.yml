@@ -59,7 +59,6 @@ services:
       - ./config_jellyfin:/config
       - /mnt/media/serial:/data/tvshows
       - /mnt/media/video:/data/movies
-      - /mnt/media/pictures:/data/pictures
       - /mnt/media/serial:/data/serial
       - /mnt/private_media/video:/data/my_video
       - /mnt/private_media/photo:/data/my_photo
@@ -81,7 +80,6 @@ services:
       - /dev/dri:/dev/dri
       - /dev/nvidiactl:/dev/nvidiactl
       - /dev/nvidia0:/dev/nvidia0
-      - /dev/nvidia-modeset:/dev/nvidia-modeset
     dns:
       - 9.9.9.9
     runtime: nvidia
