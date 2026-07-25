@@ -105,7 +105,7 @@ services:
   lampac:
     restart: unless-stopped
     container_name: lampac
-    image: immisterio/lampac
+    image: ghcr.io/lampac-nextgen/lampac
     volumes:
      # - /media/downloads:/home/dlna
       - ./config_lampac/init.conf:/home/init.conf
