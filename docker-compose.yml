@@ -47,6 +47,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Moscow
+      - LANG=ru_RU.UTF-8
+      - LC_ALL=ru_RU.UTF-8
       - LD_LIBRARY_PATH=/opt/cuda/lib64:/usr/local/cuda/lib64
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -87,14 +89,14 @@ services:
 
 # Torrserver
   torrserver:
-    image: ghcr.io/yourok/torrserver
+    image: ghcr.io/yourok/torrserver:latest
     container_name: torrserver
-    network_mode: host    # to allow DLNA feature
+    network_mode: host
     environment:
         - TS_PORT=5665
         - TS_DONTKILL=1
         - TS_HTTPAUTH=1
-        - TS_CONF_PATH=/opt/ts/config
+        - TS_PATH=/opt/ts/config
         - TS_TORR_DIR=/opt/ts/torrents
     volumes:
         - './config_torrserver/CACHE:/opt/ts/torrents'
@@ -110,7 +112,6 @@ services:
      # - /media/downloads:/home/dlna
       - ./config_lampac/init.conf:/home/init.conf
     network_mode: host
-
 
 networks:
   default:

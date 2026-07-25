@@ -1,8 +1,4 @@
-config_jackett/*
-config_jellyfin/*
-config_transmission/*
-config_photoprism/*
-config_torrserver/*
-config_lampac/*
+config_*
 .env
+.venv
 
