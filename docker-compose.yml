@@ -55,6 +55,8 @@ services:
       - FORCE_CUDA=1
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=1
+      - HTTP_PROXY=${HTTP_PROXY}
+      - HTTPS_PROXY=${HTTP_PROXY}
     volumes:
       - ./config_jellyfin:/config
       - /mnt/media/serial:/data/tvshows
