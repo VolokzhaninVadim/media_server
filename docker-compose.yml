@@ -2,11 +2,11 @@ services:
 
 # Torrents indexator
   jackett:
-    image: lscr.io/linuxserver/jackett
+    image: digrouz/jackett:latest
     container_name: jackett
     environment:
-      - PUID=1000
-      - PGID=1000
+      - UID=1000
+      - GID=1000
       - TZ=Europe/Moscow
       - AUTO_UPDATE=true
     volumes:
@@ -112,10 +112,3 @@ services:
      # - /media/downloads:/home/dlna
       - ./config_lampac/init.conf:/home/init.conf
     network_mode: host
-
-
-networks:
-  default:
-    external: true
-    name: volokzhanin
-
