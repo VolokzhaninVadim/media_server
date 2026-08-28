@@ -109,6 +109,9 @@ services:
     container_name: lampac
     image: ghcr.io/lampac-nextgen/lampac
     volumes:
-     # - /media/downloads:/home/dlna
       - ./config_lampac/init.conf:/home/init.conf
+      - ./config_lampac/lampac:/lampac  
+    environment:
+      - UID=1000
+      - GID=1000
     network_mode: host
