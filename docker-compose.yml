@@ -43,6 +43,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    env_file: ".env"
     environment:
       - PUID=1000
       - PGID=1000
@@ -62,12 +63,8 @@ services:
       - /mnt/media/serial:/data/tvshows
       - /mnt/media/video:/data/movies
       - /mnt/media/serial:/data/serial
-      - /mnt/private_media/video:/data/my_video
-      - /mnt/private_media/photo:/data/my_photo
-      - /mnt/private_media/vvy_smartphones/camera:/data/camera_vvy
       - /dev/vcsm:/dev/vcsm
       - /dev/vchiq:/dev/vchiq
-      - /mnt/private_media/angel_smartphones/camera_device_angel:/data/camera_angel
       - /mnt/media/cources:/data/cources
       - /mnt/media/audiobook:/data/audiobook
       - /mnt/media/music:/data/music
